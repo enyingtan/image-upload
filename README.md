@@ -5,7 +5,7 @@
 <p align="center"><a href="https://thecodingmachine.github.io/symfony-boilerplate">Documentation</a></p>
 
 ---
-
+****
 This is a template of a *README*. Adapt it according to the comments and your needs.
 
 ---
