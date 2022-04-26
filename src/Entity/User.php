@@ -58,6 +58,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * The public representation of the user (e.g. a username, an email address, etc.)
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
      * A visual identifier that represents this user.
      *
      * @see UserInterface
