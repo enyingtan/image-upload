@@ -8,16 +8,32 @@ use Gedmo\Sluggable\Util\Urlizer;
 
 class UploadHelper
 {
+    private $uploadsPath;
+
+    public function __construct(string $uploadsPath)
+    {
+        $this->uploadsPath = $uploadsPath;
+    }
+
     public function uploadImage(UploadedFile $uploadedFile): string
     {
-        // $destination = $this->getParameter('kernel.project_dir').'/public/uploads/article_image';
-        // $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        // $newFilename = Urlizer::urlize($originalFilename).'-'.uniqid().'.'.$uploadedFile->guessExtension();
-        // $uploadedFile->move(
-        //     $destination,
-        //     $newFilename
-        // );
+        $destination = $this->uploadsPath.'/images';
 
-        return '';
+        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $newFilename = Urlizer::urlize($originalFilename).'-'.uniqid().'.'.$uploadedFile->guessExtension();
+        $uploadedFile->move(
+            $destination,
+            $newFilename
+        );
+
+        return $newFilename;
+    }
+
+    public function getOriginalFileName(UploadedFile $uploadedFile): string
+    {
+
+        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+
+        return $originalFilename;
     }
 }

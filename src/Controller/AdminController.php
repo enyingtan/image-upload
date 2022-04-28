@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Form\ImageType;
+use App\Service\UploadHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +17,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="app_admin")
      */
-    public function index(Request $request): Response
+    public function index(EntityManagerInterface $em, Request $request, UploadHelper $uploaderHelper): Response
     {
         $image = new Image();
 
@@ -25,22 +28,17 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $form['imageFile']->getData();
-            $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
 
-            $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-            // $newFilename = Urlizer ::urlize($originalFilename).'-'.uniqid().'.'.$uploadedFile->guessExtension();
-            // $uploadedFile->move(
-            //     $destination,
-            //     $newFilename
-            // );
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadImage($uploadedFile);
+                $originalFilename = $uploaderHelper->getOriginalFileName($uploadedFile);
+                $image->setFilename($originalFilename);
+                $image->setImagename($newFilename);
 
-            // // Save
-            // $em = $this->getDoctrine()->getManager();
-            // $em->persist($image);
-            // $em->flush();
-
-            // dd($newFilename);
+                // Save
+                $em->persist($image);
+                $em->flush();
+            }
 
             $this->addFlash('success', 'Image uploaded!');
         }
