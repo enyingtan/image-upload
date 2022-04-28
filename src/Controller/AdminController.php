@@ -40,7 +40,7 @@ class AdminController extends AbstractController
             // $em->persist($image);
             // $em->flush();
 
-            dd($newFilename);
+            // dd($newFilename);
 
             $this->addFlash('success', 'Image uploaded!');
         }
