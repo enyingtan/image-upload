@@ -41,6 +41,7 @@ class AdminController extends AbstractController
             }
 
             $this->addFlash('success', 'Image uploaded!');
+            return $this->redirectToRoute('app_admin');
         }
 
         return $this->render('admin/index.html.twig', [

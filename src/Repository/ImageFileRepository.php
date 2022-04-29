@@ -47,22 +47,20 @@ class ImageFileRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return ImageFile[] Returns an array of ImageFile objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return ImageFile[] Returns an array of ImageFile objects
+     */
+    public function findByTagSearch($term)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('i.tags like :searchTerm')
+            ->setParameter('searchTerm', '%'.$term.'%')
             ->orderBy('i.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?ImageFile

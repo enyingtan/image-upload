@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ImageFileRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Service\UploaderHelper;
+use App\Service\UploadHelper;
 
 /**
  * @ORM\Entity(repositoryClass=ImageFileRepository::class)
@@ -71,5 +73,10 @@ class ImageFile
         $this->pathName = $pathName;
 
         return $this;
+    }
+
+    public function getImagePath()
+    {
+        return UploadHelper::IMAGE_PATH.'/'.$this->getPathName();
     }
 }

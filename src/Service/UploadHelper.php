@@ -10,6 +10,8 @@ class UploadHelper
 {
     private $uploadsPath;
 
+    const IMAGE_PATH = 'images';
+
     public function __construct(string $uploadsPath)
     {
         $this->uploadsPath = $uploadsPath;
@@ -17,7 +19,7 @@ class UploadHelper
 
     public function uploadImage(UploadedFile $uploadedFile): string
     {
-        $destination = $this->uploadsPath.'/images';
+        $destination = $this->uploadsPath.'/'.self::IMAGE_PATH;
 
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
         $newFilename = Urlizer::urlize($originalFilename).'-'.uniqid().'.'.$uploadedFile->guessExtension();
@@ -35,5 +37,10 @@ class UploadHelper
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
 
         return $originalFilename;
+    }
+
+    public function getPublicPath(string $path): string
+    {
+        return 'uploads/'.$path;
     }
 }
