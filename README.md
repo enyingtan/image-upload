@@ -10,8 +10,21 @@ Run `php bin/console server:run` for a dev server. Navigate to `http://localhost
 
 php bin/console cache:clear --env=dev
 
-## After installing the project RUN the below command
+## How to install Project
+`.env` file indicate the database.
+`DATABASE_URL="mysql://user:password@127.0.0.1:3306/db_company?serverVersion=5.7&charset=utf8mb4"`
 
-### ADD FULLTEXT to the columns of table
+Create the database
+`php bin/console doctrine:database:create`
 
-ALTER TABLE image_file ADD FULLTEXT (`tags`, `image_name`);
+Update schema
+`php bin/console doctrine:schema:update --force`
+
+Run to add FULLTEXT feature to the `image_file` table
+`php bin/console doctrine:query:sql 'ALTER TABLE image_file ADD FULLTEXT ('tags', 'image_name')'`
+
+Install composer
+`composer install`
+
+Run Project
+`php bin/console server:run`
