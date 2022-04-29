@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Image;
+use App\Entity\ImageFile;
 use App\Form\ImageType;
 use App\Service\UploadHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +19,7 @@ class AdminController extends AbstractController
      */
     public function index(EntityManagerInterface $em, Request $request, UploadHelper $uploaderHelper): Response
     {
-        $image = new Image();
+        $image = new ImageFile();
 
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
@@ -32,8 +32,8 @@ class AdminController extends AbstractController
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadImage($uploadedFile);
                 $originalFilename = $uploaderHelper->getOriginalFileName($uploadedFile);
-                $image->setFilename($originalFilename);
-                $image->setImagename($newFilename);
+                $image->setImageName($originalFilename);
+                $image->setPathName($newFilename);
 
                 // Save
                 $em->persist($image);

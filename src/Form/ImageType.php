@@ -2,7 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Image;
+use App\Entity\ImageFile;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -16,7 +17,12 @@ class ImageType extends AbstractType
         $builder
             ->add('tags', TextType::class, [])
             ->add('imageFile', FileType::class, [
-                'mapped' => false
+                'mapped' => false,
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '5M'
+                    ])
+                ]
             ])
         ;
 
@@ -37,7 +43,7 @@ class ImageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Image::class,
+            'data_class' => ImageFile::class,
         ]);
     }
 }

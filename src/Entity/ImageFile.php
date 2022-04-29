@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
+use App\Repository\ImageFileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\Entity(repositoryClass=ImageFileRepository::class)
  */
-class Image
+class ImageFile
 {
     /**
      * @ORM\Id
@@ -20,7 +20,7 @@ class Image
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $filename;
+    private $imageName;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -30,21 +30,21 @@ class Image
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $imagename;
+    private $pathName;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFilename(): ?string
+    public function getImageName(): ?string
     {
-        return $this->filename;
+        return $this->imageName;
     }
 
-    public function setFilename(string $filename): self
+    public function setImageName(string $imageName): self
     {
-        $this->filename = $filename;
+        $this->imageName = $imageName;
 
         return $this;
     }
@@ -61,14 +61,14 @@ class Image
         return $this;
     }
 
-    public function getImagename(): ?string
+    public function getPathName(): ?string
     {
-        return $this->imagename;
+        return $this->pathName;
     }
 
-    public function setImagename(string $imagename): self
+    public function setPathName(string $pathName): self
     {
-        $this->imagename = $imagename;
+        $this->pathName = $pathName;
 
         return $this;
     }
