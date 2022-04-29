@@ -3,6 +3,19 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card bg-light mb-3 mt-3">
+                <form>
+                    <div class="d-flex">
+                        <input type="text"
+                            name="q"
+                            class="form-control"
+                            value="{{ app.request.query.get('q') }}"
+                            placeholder="Search..."
+                        >
+                        <button type="submit" class="btn btn-outline-primary">
+                            Search
+                        </button>
+                    </div>
+                </form>
                 <div class="card-header">List of Images</div>
                 <div class="card-body">
                     <div class="row">

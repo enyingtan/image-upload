@@ -15,7 +15,8 @@ class ListController extends AbstractController
      */
     public function index(Request $request, ImageFileRepository $repository)
     {
-        $images = $repository->findByTagSearch("");
+        $q = $request->query->get('q');
+        $images = $repository->searchByFullTextColumn($q);
 
 
         return $this->render('list/index.html.twig', [

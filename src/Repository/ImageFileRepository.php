@@ -6,6 +6,7 @@ use App\Entity\ImageFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -61,6 +62,44 @@ class ImageFileRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * @return ImageFile[] Returns an array of ImageFile objects by full text search
+     */
+    public function searchByFullTextColumn($term)
+    {
+
+        if (empty($term)) {
+            return $this->createQueryBuilder('i')
+                ->andWhere('i.tags like :searchTerm')
+                ->setParameter('searchTerm', '%'.$term.'%')
+                ->orderBy('i.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        } else {                
+            $rsm = new ResultSetMapping();
+            // Specify the object type to be returned in results
+            $rsm->addEntityResult(ImageFile::class, 'i');
+    
+            // references each attribute with table's columns 
+            $rsm->addFieldResult('i', 'tags', 'tags');
+            $rsm->addFieldResult('i', 'image_name', 'imageName');
+            $rsm->addFieldResult('i', 'path_name', 'pathName');
+            $rsm->addFieldResult('i', 'id', 'id');
+    
+            // create a native query
+            $sql = 'select * from image_file i 
+                    where match(i.tags, i.image_name) against("'.$term.'")';
+    
+            // execute the query
+            $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+    
+            // getting the results
+            return $query->getResult();
+        }
+    }
+
 
     /*
     public function findOneBySomeField($value): ?ImageFile
