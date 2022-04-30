@@ -29,4 +29,7 @@ Install composer
 Run Project
 `php bin/console server:run`
 
-ADD Heroku addd
+## User Info
+### Admin
+admin@gmail.com /  1234
+user@gmail.com / 1234
