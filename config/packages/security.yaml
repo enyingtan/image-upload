@@ -21,6 +21,14 @@ security:
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
+        vendor:
+            pattern: ^/vendor
+            form_login:
+                provider: fos_userbundle
+            #   csrf_token_generator: security.csrf.token_manager
+                login_path: vendor_login
+                check_path: vendor_login_check
+            logout: true
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         
